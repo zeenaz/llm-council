@@ -64,6 +64,8 @@ CHAIRMAN_MODEL = "google/gemini-3-pro-preview"
 ./start.sh
 ```
 
+The start script sets the matching frontend API base automatically.
+
 **Option 2: Run manually**
 
 Terminal 1 (Backend):
@@ -74,10 +76,35 @@ uv run python -m backend.main
 Terminal 2 (Frontend):
 ```bash
 cd frontend
-npm run dev
+VITE_API_BASE=http://localhost:8002 npm run dev
+```
+
+The backend defaults to port 8002. If another app uses that port, override both
+the backend and frontend API base:
+
+```bash
+LLM_COUNCIL_BACKEND_PORT=8010 uv run python -m backend.main
+cd frontend
+VITE_API_BASE=http://localhost:8010 npm run dev
 ```
 
 Then open http://localhost:5173 in your browser.
+
+### Local Port Configuration
+
+The backend defaults to `http://localhost:8002`. This avoids common conflicts
+with other local apps on ports `8000` or `8001`; if the frontend points at a
+port owned by another app, actions like creating a new conversation can fail
+with a `404` even though the button click is wired correctly.
+
+`./start.sh` keeps the backend port and frontend API base in sync. For manual
+runs, set both values explicitly:
+
+```bash
+LLM_COUNCIL_BACKEND_PORT=8010 uv run python -m backend.main
+cd frontend
+VITE_API_BASE=http://localhost:8010 npm run dev
+```
 
 ## Tech Stack
 

@@ -24,3 +24,6 @@ OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 # Data directory for conversation storage
 DATA_DIR = "data/conversations"
+
+# Local backend server port. Override when another local app owns the default.
+BACKEND_PORT = int(os.getenv("LLM_COUNCIL_BACKEND_PORT", "8002"))
